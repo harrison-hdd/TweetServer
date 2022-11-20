@@ -1,0 +1,9 @@
+If you add dependencies, you'll need to delete artifacts in project structure and build it again from scratch
+
+In dev env, you have to use ProfileCredentialsProvider, but for building artifacts to upload to Lambda, you have to use
+    EnvironmentVariableCredentialsProvider
+
+Src code: https://tweeter-server-source-code.s3-accelerate.amazonaws.com/TweetServer.jar
+
+
+

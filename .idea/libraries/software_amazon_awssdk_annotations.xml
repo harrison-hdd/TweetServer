@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="software.amazon.awssdk.annotations" type="repository">
+    <properties maven-id="software.amazon.awssdk:annotations:2.17.202" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/software/amazon/awssdk/annotations/2.17.202/annotations-2.17.202.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

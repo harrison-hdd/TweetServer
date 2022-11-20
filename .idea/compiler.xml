@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="net_shared" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="follow" target="11" />
+      <module name="get_feed" target="11" />
+      <module name="get_followees" target="11" />
+      <module name="get_followees_count" target="11" />
+      <module name="get_followers" target="11" />
+      <module name="get_followers_count" target="11" />
+      <module name="get_following" target="11" />
+      <module name="get_story" target="11" />
+      <module name="get_user" target="11" />
+      <module name="is_follower" target="11" />
+      <module name="login" target="11" />
+      <module name="logout" target="11" />
+      <module name="model_shared" target="11" />
+      <module name="page_service" target="11" />
+      <module name="post_status" target="11" />
+      <module name="register" target="11" />
+      <module name="unfollow" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
