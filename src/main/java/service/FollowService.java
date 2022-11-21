@@ -47,7 +47,7 @@ public class FollowService {
     }
 
     public Pair<List<User>, Boolean> getFollowees(GetFolloweesRequest getFolloweesRequest){
-        checkAuthToken(getFolloweesRequest);
+        AuthTokenValidator.validate(getFolloweesRequest.getAuthToken());
         if(getFolloweesRequest.getTargetUser() == null){
             throw new RuntimeException("[Bad Request] no target user provided");
         }
@@ -144,15 +144,11 @@ public class FollowService {
 
     public IsFollowerResponse isFollower(IsFollowerRequest isFollowerRequest){
         AuthTokenValidator.validate(isFollowerRequest.getAuthToken());
+
         FollowBean followBean = AbstractDAOFactory.factory().followDAO().find(
                 isFollowerRequest.getFollower().getAlias(),
                 isFollowerRequest.getFollowee().getAlias());
 
         return new IsFollowerResponse(true, null, followBean != null);
-    }
-    private void checkAuthToken(AuthenticatedRequest request){
-        if(request.getAuthToken() == null){
-            throw new RuntimeException("[Unauthorized]");
-        }
     }
 }

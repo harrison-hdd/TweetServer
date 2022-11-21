@@ -11,7 +11,7 @@ public class IsFollowerResponse extends Response{
         this.isFollower = isFollower;
     }
 
-    public boolean isFollower() {
+    public boolean getIsFollower() {
         return isFollower;
     }
 

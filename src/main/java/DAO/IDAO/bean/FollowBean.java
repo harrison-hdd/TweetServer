@@ -4,7 +4,7 @@ import DAO.AWSdao.DynamoDBFollowDAO;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.*;
 
 @DynamoDbBean
-public class FollowBean {
+public final class FollowBean {
     private String follower_handle;
     private String follower_first_name;
     private String follower_last_name;

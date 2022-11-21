@@ -114,7 +114,7 @@ public final class DynamoDBFollowDAO implements IFollowDAO {
 
         //number of items in page is independent of the item in items stream.
         //QueryEnhancedRequest.Builder::limit() set the number of items per page.
-        Page<FollowBean> page = result.stream().collect(Collectors.toList()).get(0); //get current page
+        Page<FollowBean> page = result.stream().collect(Collectors.toList()).get(0); //get the first page returned
 
         //We can also do list = result.items().stream().limit(pageSize).collect(Collectors.toList())
         List<FollowBean> list = page.items();

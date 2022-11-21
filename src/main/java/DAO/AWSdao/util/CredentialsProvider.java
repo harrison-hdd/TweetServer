@@ -6,7 +6,7 @@ import software.amazon.awssdk.auth.credentials.ProfileCredentialsProvider;
 
 public class CredentialsProvider {
     public static AwsCredentialsProvider getProvider(){
-        return ProfileCredentialsProvider.create(); //for dev
-//        return EnvironmentVariableCredentialsProvider.create(); //for deployment
+//        return ProfileCredentialsProvider.create(); //for dev
+        return EnvironmentVariableCredentialsProvider.create(); //for deployment
     }
 }

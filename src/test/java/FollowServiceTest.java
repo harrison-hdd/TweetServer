@@ -126,4 +126,24 @@ public class FollowServiceTest {
                 followee.getImageUrl()
         );
     }
+
+    @Test
+    public void isFollowTest(){
+        UserService userService = new UserService();
+        FollowService followService = new FollowService();
+
+        LoginRequest loginRequest = new LoginRequest("@username", "password");
+        LoginResponse loginResponse = userService.login(loginRequest);
+        User user = loginResponse.getUser();
+        AuthToken authToken = loginResponse.getAuthToken();
+
+        loginRequest = new LoginRequest("@username10", "password");
+        loginResponse = userService.login(loginRequest);
+        User user10 = loginResponse.getUser();
+
+        IsFollowerRequest isFollowerRequest = new IsFollowerRequest(authToken, user, user10);
+        followService.isFollower(isFollowerRequest);
+
+
+    }
 }

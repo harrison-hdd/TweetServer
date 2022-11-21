@@ -4,7 +4,7 @@ import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
 
 @DynamoDbBean
-public class UserBean {
+public final class UserBean {
     private String username;
     private String salt;
     private String password_hash;

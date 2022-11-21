@@ -1,10 +1,7 @@
 package DAOFactory;
 
-import DAO.AWSdao.DynamoDBAuthTokenDAO;
-import DAO.AWSdao.DynamoDBFollowDAO;
-import DAO.AWSdao.DynamoDBUserDao;
+import DAO.AWSdao.*;
 import DAO.IDAO.*;
-import DAO.AWSdao.S3DAO;
 
 public class AWSDAOFactory extends AbstractDAOFactory {
 
@@ -16,7 +13,7 @@ public class AWSDAOFactory extends AbstractDAOFactory {
 
     @Override
     public IFeedDAO feedDAO() {
-        return null;
+        return new DynamoDBFeedDAO();
     }
 
     @Override
@@ -31,7 +28,7 @@ public class AWSDAOFactory extends AbstractDAOFactory {
 
     @Override
     public IStoryDAO storyDAO() {
-        return null;
+        return new DynamoDBStoryDAO();
     }
 
     @Override
