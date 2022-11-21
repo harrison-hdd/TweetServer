@@ -5,5 +5,10 @@ In dev env, you have to use ProfileCredentialsProvider, but for building artifac
 
 Src code: https://tweeter-server-source-code.s3-accelerate.amazonaws.com/TweetServer.jar
 
+if android studio says Type duplicate, go to the source code folder and check target if there are compiled classes with a 2 added on the side.
+If there is, clear the target folder and rebuild the artifact
+
+url passed into URLSpan(Android) must starts with http://. If not, it won't open
+
 
 
