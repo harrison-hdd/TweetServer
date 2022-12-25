@@ -8,6 +8,11 @@ import DAO.IDAO.bean.FollowBean;
 import DAO.IDAO.bean.StoryBean;
 import DAO.IDAO.bean.UserBean;
 import DAOFactory.AbstractDAOFactory;
+import com.amazonaws.services.sqs.AmazonSQS;
+import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
+import com.amazonaws.services.sqs.model.SendMessageBatchResult;
+import com.amazonaws.services.sqs.model.SendMessageRequest;
+import com.google.gson.Gson;
 import edu.byu.cs.tweeter.model.domain.Status;
 import edu.byu.cs.tweeter.model.domain.User;
 import edu.byu.cs.tweeter.util.FakeData;
@@ -33,26 +38,35 @@ public class StatusService {
         StoryBean storyBean = new StoryBean(postStatusRequest.getStatus().user.getAlias(), postStatusRequest.getStatus().post, timestamp);
         AbstractDAOFactory.factory().storyDAO().insert(storyBean);
 
-        List<FeedBean> feedBeans = new ArrayList<>();
-        List<FollowBean> followBeans = AbstractDAOFactory.factory()
-                .followDAO()
-                .findFollowersPagedList(postStatusRequest.getStatus().user.getAlias(), -1, null)
-                .getFirst();
+        //push request on queue
+        String requestJson = new Gson().toJson(postStatusRequest);
+        final String queueURL = "https://sqs.us-east-1.amazonaws.com/652355629952/PostRequests";
+        final AmazonSQS client = AmazonSQSClientBuilder.defaultClient();
+        SendMessageRequest request = new SendMessageRequest().withQueueUrl(queueURL)
+                .withMessageBody(requestJson);
 
-        for(FollowBean followBean: followBeans){
-            FeedBean feedBean = new FeedBean(
-                    followBean.getFollower_handle(),
-                    postStatusRequest.getStatus().user.getAlias(),
-                    postStatusRequest.getStatus().user.getFirstName(),
-                    postStatusRequest.getStatus().user.getLastName(),
-                    postStatusRequest.getStatus().user.getImageUrl(),
-                    postStatusRequest.getStatus().post,
-                    timestamp
-            );
-            feedBeans.add(feedBean);
-        }
+        client.sendMessage(request);
 
-        AbstractDAOFactory.factory().feedDAO().insert(feedBeans);
+//        List<FeedBean> feedBeans = new ArrayList<>();
+//        List<FollowBean> followBeans = AbstractDAOFactory.factory()
+//                .followDAO()
+//                .findFollowersPagedList(postStatusRequest.getStatus().user.getAlias(), -1, null)
+//                .getFirst();
+//
+//        for(FollowBean followBean: followBeans){
+//            FeedBean feedBean = new FeedBean(
+//                    followBean.getFollower_handle(),
+//                    postStatusRequest.getStatus().user.getAlias(),
+//                    postStatusRequest.getStatus().user.getFirstName(),
+//                    postStatusRequest.getStatus().user.getLastName(),
+//                    postStatusRequest.getStatus().user.getImageUrl(),
+//                    postStatusRequest.getStatus().post,
+//                    timestamp
+//            );
+//            feedBeans.add(feedBean);
+//        }
+//
+//        AbstractDAOFactory.factory().feedDAO().insert(feedBeans);
 
         return new PostStatusResponse(true);
     }

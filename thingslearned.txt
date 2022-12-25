@@ -10,5 +10,8 @@ If there is, clear the target folder and rebuild the artifact
 
 url passed into URLSpan(Android) must starts with http://. If not, it won't open
 
+There's no guarantee that dynamoDB will write everything in a batch write. To make sure it does, check result's unprocessed items and keep
+uploading till there's no unprocessed items.
+
 
 

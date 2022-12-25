@@ -4,8 +4,7 @@ import DAO.IDAO.*;
 
 public abstract class AbstractDAOFactory {
     private static AbstractDAOFactory instance;
-    private static boolean instanceIsSet = false;
-
+    private static boolean instanceAlreadySet = false;
 
     public static AbstractDAOFactory factory(){
         if(instance == null) DAOFactoryConfigurator.configure();
@@ -13,10 +12,11 @@ public abstract class AbstractDAOFactory {
     }
 
     public static void setInstance(AbstractDAOFactory instance){
-        if(instanceIsSet) return;
+        if(instanceAlreadySet) return;
         AbstractDAOFactory.instance = instance;
-        instanceIsSet = true;
+        instanceAlreadySet = true;
     }
+
     public abstract IAuthTokenDAO authTokenDAO();
     public abstract IFeedDAO feedDAO();
     public abstract IFollowDAO followDAO();

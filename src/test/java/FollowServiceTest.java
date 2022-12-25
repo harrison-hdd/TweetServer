@@ -16,6 +16,7 @@ import response.paged_service_response.GetFollowersResponse;
 import service.FollowService;
 import service.UserService;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,14 +59,36 @@ public class FollowServiceTest {
     }
 
     @Test
-    public void insertFollows(){
-//        UserService userService = new UserService();
-//        FollowService followService = new FollowService();
+    public void insertFollows() throws IOException {
+        File file = new File("/Users/hoando/Desktop/BYU_F2022/CS340/TweetServer/src/imgBase64.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String imgStr = br.readLine();
+
+        UserService userService = new UserService();
+        FollowService followService = new FollowService();
 //
-//        LoginRequest loginRequest = new LoginRequest("@username", "password");
-//        LoginResponse loginResponse = userService.login(loginRequest);
-//        User user = loginResponse.getUser();
-//        AuthToken authToken = loginResponse.getAuthToken();
+        LoginRequest loginRequest = new LoginRequest("@username", "password");
+        LoginResponse loginResponse = userService.login(loginRequest);
+        User user = loginResponse.getUser();
+        AuthToken authToken = loginResponse.getAuthToken();
+
+
+
+        for(int i = 17098; i < 20001; ++i){
+            String username = "@username" + i;
+            String password = "password";
+            String firstName = "first" + i;
+            String lastName = "last" + i;
+
+
+            RegisterRequest request = new RegisterRequest(username, password, firstName, lastName, imgStr);
+            RegisterResponse response = userService.register(request);
+            User __user = response.getUser();
+            AuthToken __authToken = response.getAuthToken();
+
+            FollowRequest followRequest = new FollowRequest(__authToken, __user, user);
+            followService.follow(followRequest);
+        }
 //
 //        loginRequest = new LoginRequest("@username1", "password");
 //        loginResponse = userService.login(loginRequest);
@@ -84,6 +107,7 @@ public class FollowServiceTest {
 //            followService.follow(followRequest);
 //            followService.follow(followRequest1);
 //        }
+
 
 
 
@@ -145,5 +169,18 @@ public class FollowServiceTest {
         followService.isFollower(isFollowerRequest);
 
 
+    }
+
+    @Test
+    public void getFollowers(){
+        List<FollowBean> followBeans = AbstractDAOFactory.factory()
+                .followDAO()
+                .findFollowersPagedList("@username", -1, null)
+                .getFirst();
+
+        for(FollowBean followBean: followBeans){
+
+
+        }
     }
 }

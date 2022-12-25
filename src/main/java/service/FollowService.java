@@ -28,6 +28,7 @@ public class FollowService {
         }
 
         IFollowDAO followDAO = AbstractDAOFactory.factory().followDAO();
+
         String lastFollowerHandler = null;
         if(getFollowersRequest.getLastItem() != null){
             lastFollowerHandler = getFollowersRequest.getLastItem().getAlias();

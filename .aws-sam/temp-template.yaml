@@ -4,8 +4,8 @@ Resources:
     Properties:
       Timeout: 300
       MemorySize: 128
-      Handler: lambda.Register
+      Handler: lambda.statusProcessor.FeedBatchInsertionQueueProcessor
       CodeUri: /Users/hoando/Desktop/BYU_F2022/CS340/TweetServer
       Runtime: java11
       Architectures:
-        - arm64
+        - x86_64

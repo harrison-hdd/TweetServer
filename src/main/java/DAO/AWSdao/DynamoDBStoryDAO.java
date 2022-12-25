@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class DynamoDBStoryDAO implements IStoryDAO {
+public final class DynamoDBStoryDAO implements IStoryDAO {
     private static final String tableName = "tweeter_story";
 
     private static final String timestampAttr = "timestamp";

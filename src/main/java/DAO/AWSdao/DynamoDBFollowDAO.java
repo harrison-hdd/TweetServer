@@ -139,11 +139,24 @@ public final class DynamoDBFollowDAO implements IFollowDAO {
         SdkIterable<Page<FollowBean>> result = index.query(request);
         PageIterable<FollowBean> pageIterable = PageIterable.create(result);
 
-        Page<FollowBean> page = result.stream().collect(Collectors.toList()).get(0); //get current page
+        List<Page<FollowBean>> pageList = result.stream().collect(Collectors.toList());
+
+        Page<FollowBean> first = pageList.get(0); //get current page
 
 
-        List<FollowBean> list = page.items();
-        return new Pair<>(list, page.lastEvaluatedKey() != null);
+        List<FollowBean> list = first.items();
+
+        if (pageSize != -1) {
+            return new Pair<>(list, first.lastEvaluatedKey() != null);
+        }
+
+        //if pageSize == -1, i.e. get all items
+        //even if no limit is passed query builder, it's not guaranteed that the first page has all the items
+        for(int i = 1; i < pageList.size(); ++i){
+            Page<FollowBean> currPage = pageList.get(i);
+            list.addAll(currPage.items());
+        }
+        return new Pair<>(list, false);
     }
 
     //pass pageSize = -1 to skip pagination, (i.e. get all items)

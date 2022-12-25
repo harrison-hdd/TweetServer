@@ -20,6 +20,5 @@ public class AuthTokenValidator {
         if(authTokenBean.getDatetime() < new Date().getTime()){
             throw new RuntimeException("[Bad Request] expired authorization");
         }
-
     }
 }

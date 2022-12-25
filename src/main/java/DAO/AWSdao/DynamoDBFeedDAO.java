@@ -5,6 +5,7 @@ import DAO.IDAO.IFeedDAO;
 import DAO.IDAO.bean.FeedBean;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
+import com.amazonaws.services.dynamodbv2.document.BatchWriteItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.DynamoDB;
 import com.amazonaws.services.dynamodbv2.document.Item;
 import com.amazonaws.services.dynamodbv2.document.TableWriteItems;
@@ -78,6 +79,7 @@ public final class DynamoDBFeedDAO implements IFeedDAO {
 
     @Override
     public void insert(List<User> followers, User poster, String post) {
+
         TableWriteItems request = new TableWriteItems(tableName);
         Collection<Item> itemsToPut = new ArrayList<>();
 
@@ -107,6 +109,8 @@ public final class DynamoDBFeedDAO implements IFeedDAO {
 
     @Override
     public void insert(List<FeedBean> beans) {
+        System.out.println("num feeds being inserted:" + beans.size());
+
         if(beans.isEmpty()) return;
         TableWriteItems request = new TableWriteItems(tableName);
         Collection<Item> itemsToPut = new ArrayList<>();
@@ -123,12 +127,21 @@ public final class DynamoDBFeedDAO implements IFeedDAO {
 
             if(itemsToPut.size() == 25){
                 request.withItemsToPut(itemsToPut);
-                dynamoDB.batchWriteItem(request);
+                BatchWriteItemOutcome result = dynamoDB.batchWriteItem(request);
+
+                while(!result.getUnprocessedItems().isEmpty()){
+                    result = dynamoDB.batchWriteItemUnprocessed(result.getUnprocessedItems());
+                }
                 itemsToPut.clear();
             }
         }
 
+        if(itemsToPut.size() == 0) return;
+
         request.withItemsToPut(itemsToPut);
-        dynamoDB.batchWriteItem(request);
+        BatchWriteItemOutcome result = dynamoDB.batchWriteItem(request);
+        while(!result.getUnprocessedItems().isEmpty()){
+            result = dynamoDB.batchWriteItemUnprocessed(result.getUnprocessedItems());
+        }
     }
 }
